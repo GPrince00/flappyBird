@@ -6,6 +6,35 @@ sprites.src = './sprites.png';
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
+const background = {
+    spriteX: 390,
+    spriteY: 0,
+    width: 275,
+    heigth: 204,
+    x: 0,
+    y: canvas.height -204,
+
+    draw() {
+        ctx.fillStyle = '#70C5CE';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.drawImage(
+            sprites,
+            background.spriteX, background.spriteY,
+            background.width, background.heigth,
+            background.x, background.y,
+            background.width, background.heigth,
+        );
+        ctx.drawImage(
+            sprites,
+            background.spriteX, background.spriteY,
+            background.width, background.heigth,
+            (background.x + background.width), background.y,
+            background.width, background.heigth,
+        );
+    }
+}
+
 const floor = {
     spriteX: 0,
     spriteY: 610,
@@ -50,6 +79,7 @@ const flappyBird = {
 }
 
 function loop() {
+    background.draw();
     floor.draw();
     flappyBird.draw();
     
