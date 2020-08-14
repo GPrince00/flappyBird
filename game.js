@@ -84,11 +84,30 @@ const flappyBird = {
     }
 }
 
+const messageGetReady = {
+    spriteX: 134,
+    spriteY: 0,
+    width: 174,
+    heigth: 152,
+    x: (canvas.width / 2) - 174 / 2,
+    y: 50,
+    draw() {
+        ctx.drawImage(
+            sprites,
+            messageGetReady.spriteX, messageGetReady.spriteY,
+            messageGetReady.width, messageGetReady.heigth,
+            messageGetReady.x, messageGetReady.y,
+            messageGetReady.width, messageGetReady.heigth,
+        );
+    }
+}
+
 function loop() {
     flappyBird.update()
     background.draw();
     floor.draw();
     flappyBird.draw();
+    messageGetReady.draw()
     requestAnimationFrame(loop);
 }
 
