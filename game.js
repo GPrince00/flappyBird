@@ -115,6 +115,9 @@ const Screens = {
             flappyBird.draw();
             messageGetReady.draw();
         },
+        click() {
+            changeScreen(Screens.GAME);
+        },
         update() {
 
         }
@@ -137,6 +140,12 @@ function loop() {
 
     requestAnimationFrame(loop);
 }
+
+window.addEventListener('click', function() {
+    if (activeScreen.click) {
+        activeScreen.click();
+    }
+})
 
 changeScreen(Screens.START);
 loop();
