@@ -67,6 +67,12 @@ const flappyBird = {
     heigth: 24,
     x: 10,
     y: 50,
+    gravity: 0.25,
+    speed: 0,
+    update(){
+        flappyBird.speed += flappyBird.gravity;
+        flappyBird.y += flappyBird.speed;
+    },
     draw() {
         ctx.drawImage(
             sprites,
@@ -79,10 +85,10 @@ const flappyBird = {
 }
 
 function loop() {
+    flappyBird.update()
     background.draw();
     floor.draw();
     flappyBird.draw();
-    
     requestAnimationFrame(loop);
 }
 
