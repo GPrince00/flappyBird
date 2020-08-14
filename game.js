@@ -101,14 +101,42 @@ const messageGetReady = {
         );
     }
 }
+let activeScreen = {};
+
+function changeScreen(newScreen) {
+    activeScreen = newScreen;
+}
+
+const Screens = {
+    START: {
+        draw() {
+            background.draw();
+            floor.draw();
+            flappyBird.draw();
+            messageGetReady.draw();
+        },
+        update() {
+
+        }
+    },
+    GAME: {
+        draw() {
+            background.draw();
+            floor.draw();
+            flappyBird.draw();
+        },
+        update() {
+            flappyBird.update();
+        }
+    }
+}
 
 function loop() {
-    flappyBird.update()
-    background.draw();
-    floor.draw();
-    flappyBird.draw();
-    messageGetReady.draw()
+    activeScreen.draw();
+    activeScreen.update();
+
     requestAnimationFrame(loop);
 }
 
+changeScreen(Screens.START);
 loop();
