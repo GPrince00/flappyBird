@@ -60,6 +60,13 @@ const floor = {
     }
 }
 
+function collision() {
+    const flappyBirdY = flappyBird.y + flappyBird.height;
+    if(flappyBirdY >= floor.y) return true;
+
+    return false;
+}
+
 const flappyBird = {
     spriteX: 0,
     spriteY: 0,
@@ -74,6 +81,11 @@ const flappyBird = {
         flappyBird.speed = - flappyBird.leap;
     },
     update(){
+        if(collision()) {
+            changeScreen(Screens.START);
+            return;
+        }
+
         flappyBird.speed += flappyBird.gravity;
         flappyBird.y += flappyBird.speed;
     },
