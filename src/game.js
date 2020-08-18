@@ -61,43 +61,46 @@ const floor = {
 }
 
 function collision() {
-    const flappyBirdY = flappyBird.y + flappyBird.height;
+    const flappyBirdY = global.flappyBird.y + global.flappyBird.height;
     if(flappyBirdY >= floor.y) return true;
 
     return false;
 }
 
-const flappyBird = {
-    spriteX: 0,
-    spriteY: 0,
-    width: 33,
-    height: 24,
-    x: 10,
-    y: 50,
-    gravity: 0.25,
-    speed: 0,
-    leap: 4.6,
-    jump(){
-        flappyBird.speed = - flappyBird.leap;
-    },
-    update(){
-        if(collision()) {
-            changeScreen(Screens.START);
-            return;
+function createFlappBird() {
+    const flappyBird = {
+        spriteX: 0,
+        spriteY: 0,
+        width: 33,
+        height: 24,
+        x: 10,
+        y: 50,
+        gravity: 0.25,
+        speed: 0,
+        leap: 4.6,
+        jump(){
+            flappyBird.speed = - flappyBird.leap;
+        },
+        update(){
+            if(collision()) {
+                changeScreen(Screens.START);
+                return;
+            }
+    
+            flappyBird.speed += flappyBird.gravity;
+            flappyBird.y += flappyBird.speed;
+        },
+        draw() {
+            ctx.drawImage(
+                sprites,
+                flappyBird.spriteX, flappyBird.spriteY,
+                flappyBird.width, flappyBird.height,
+                flappyBird.x, flappyBird.y,
+                flappyBird.width, flappyBird.height,
+            );
         }
-
-        flappyBird.speed += flappyBird.gravity;
-        flappyBird.y += flappyBird.speed;
-    },
-    draw() {
-        ctx.drawImage(
-            sprites,
-            flappyBird.spriteX, flappyBird.spriteY,
-            flappyBird.width, flappyBird.height,
-            flappyBird.x, flappyBird.y,
-            flappyBird.width, flappyBird.height,
-        );
     }
+    return flappyBird;
 }
 
 const messageGetReady = {
@@ -117,18 +120,24 @@ const messageGetReady = {
         );
     }
 }
+const global = {};
 let activeScreen = {};
 
 function changeScreen(newScreen) {
     activeScreen = newScreen;
+
+    if (activeScreen.initializes) activeScreen.initializes();
 }
 
 const Screens = {
     START: {
+        initializes() {
+            global.flappyBird = createFlappBird();
+        },
         draw() {
             background.draw();
             floor.draw();
-            flappyBird.draw();
+            global.flappyBird.draw();
             messageGetReady.draw();
         },
         click() {
@@ -142,13 +151,13 @@ const Screens = {
         draw() {
             background.draw();
             floor.draw();
-            flappyBird.draw();
+            global.flappyBird.draw();
         },
         click(){
-            flappyBird.jump();
+            global.flappyBird.jump();
         },
         update() {
-            flappyBird.update();
+            global.flappyBird.update();
         }
     }
 }
