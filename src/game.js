@@ -48,9 +48,9 @@ function createFloor() {
         x: 0,
         y: canvas.height -112,
         update() {
-            const floorMoviment = 1;
+            const floorMovement = 1;
             const repeatWhen = floor.width / 2;
-            const movement = floor.x - floorMoviment;
+            const movement = floor.x - floorMovement;
 
             floor.x = movement % repeatWhen;
         },
@@ -78,7 +78,7 @@ function createFloor() {
 
 function collision() {
     const flappyBirdY = global.flappyBird.y + global.flappyBird.height;
-    if(flappyBirdY >= floor.y) return true;
+    if(flappyBirdY >= global.floor.y) return true;
 
     return false;
 }
@@ -192,7 +192,7 @@ const Screens = {
     GAME: {
         draw() {
             background.draw();
-            floor.draw();
+            global.floor.draw();
             global.flappyBird.draw();
         },
         click(){
