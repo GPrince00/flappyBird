@@ -1,5 +1,6 @@
 console.log("Prince Flappy Bird");
 
+let frames = 0;
 const hitSound = new Audio();
 hitSound.src = '../efects/hit.wav';
 
@@ -108,10 +109,31 @@ function createFlappBird() {
             flappyBird.speed += flappyBird.gravity;
             flappyBird.y += flappyBird.speed;
         },
+        movements: [ 
+            { spriteX: 0, spriteY: 0 },
+            { spriteX: 0, spriteY: 26 },
+            { spriteX: 0, spriteY: 52 },
+            { spriteX: 0, spriteY: 26 },
+        ],
+        currentFrame: 0,
+        updateCurrentFrame() {
+            const frameInterval = 10;
+            const passedInterval = frames % frameInterval === 0;
+            if(passedInterval) {
+
+                const birdMoviment = 1;
+                const increment = birdMoviment + flappyBird.currentFrame;
+                const repetitionBase = flappyBird.movements.length;
+                flappyBird.currentFrame = increment % repetitionBase;
+            }
+
+        },
         draw() {
+            flappyBird.updateCurrentFrame();
+            const { spriteX, spriteY } = flappyBird.movements[flappyBird.currentFrame]
             ctx.drawImage(
                 sprites,
-                flappyBird.spriteX, flappyBird.spriteY,
+                spriteX, spriteY,
                 flappyBird.width, flappyBird.height,
                 flappyBird.x, flappyBird.y,
                 flappyBird.width, flappyBird.height,
@@ -186,6 +208,7 @@ function loop() {
     activeScreen.draw();
     activeScreen.update();
 
+    frames += 1;
     requestAnimationFrame(loop);
 }
 
