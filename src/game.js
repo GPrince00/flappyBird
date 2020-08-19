@@ -38,30 +38,42 @@ const background = {
     }
 }
 
-const floor = {
-    spriteX: 0,
-    spriteY: 610,
-    width: 224,
-    height: 112,
-    x: 0,
-    y: canvas.height -112,
-    draw() {
-        ctx.drawImage(
-            sprites,
-            floor.spriteX, floor.spriteY,
-            floor.width, floor.height,
-            floor.x, floor.y,
-            floor.width, floor.height,
-        );
-        ctx.drawImage(
-            sprites,
-            floor.spriteX, floor.spriteY,
-            floor.width, floor.height,
-            (floor.x + floor.width), floor.y,
-            floor.width, floor.height,
-        );
+function createFloor() {
+    const floor = {
+        spriteX: 0,
+        spriteY: 610,
+        width: 224,
+        height: 112,
+        x: 0,
+        y: canvas.height -112,
+        update() {
+            const floorMoviment = 1;
+            const repeatWhen = floor.width / 2;
+            const movement = floor.x - floorMoviment;
+
+            floor.x = movement % repeatWhen;
+        },
+        draw() {
+            ctx.drawImage(
+                sprites,
+                floor.spriteX, floor.spriteY,
+                floor.width, floor.height,
+                floor.x, floor.y,
+                floor.width, floor.height,
+            );
+            ctx.drawImage(
+                sprites,
+                floor.spriteX, floor.spriteY,
+                floor.width, floor.height,
+                (floor.x + floor.width), floor.y,
+                floor.width, floor.height,
+            );
+        }
     }
+    return floor;
 }
+
+
 
 function collision() {
     const flappyBirdY = global.flappyBird.y + global.flappyBird.height;
@@ -139,10 +151,11 @@ const Screens = {
     START: {
         initializes() {
             global.flappyBird = createFlappBird();
+            global.floor = createFloor();
         },
         draw() {
             background.draw();
-            floor.draw();
+            global.floor.draw();
             global.flappyBird.draw();
             messageGetReady.draw();
         },
@@ -150,6 +163,7 @@ const Screens = {
             changeScreen(Screens.GAME);
         },
         update() {
+            global.floor.update();
 
         }
     },
