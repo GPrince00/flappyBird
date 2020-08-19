@@ -1,5 +1,8 @@
 console.log("Prince Flappy Bird");
 
+const hitSound = new Audio();
+hitSound.src = '../efects/hit.wav';
+
 const sprites = new Image();
 sprites.src = '../assets/sprites.png';
 
@@ -83,7 +86,10 @@ function createFlappBird() {
         },
         update(){
             if(collision()) {
-                changeScreen(Screens.START);
+                hitSound.play();
+                setTimeout(() => {
+                    changeScreen(Screens.START)
+                }, 500);
                 return;
             }
     
