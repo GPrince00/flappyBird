@@ -183,29 +183,50 @@ function createTubes() {
         },
         space: 80,
         draw() {
-            const yRandom = -150;
-            const spaceBetweenTubes = 90;
-
-            const tubeSkyX = 220;
-            const tubeSkyY = yRandom;
-            ctx.drawImage(
-                sprites,
-                tubes.sky.spriteX, tubes.sky.spriteY,
-                tubes.width, tubes.height,
-                tubeSkyX, tubeSkyY,
-                tubes.width, tubes.height,
-            );
-
-            const tubeFloorX = 220;
-            const tubeFloorY = tubes.height + spaceBetweenTubes + yRandom;
-            ctx.drawImage(
-                sprites,
-                tubes.floor.spriteX, tubes.floor.spriteY,
-                tubes.width, tubes.height,
-                tubeFloorX, tubeFloorY,
-                tubes.width, tubes.height,
-            );
+            tubes.pairs.forEach(function(pair) {
+                const yRandom = pair.y;
+                const spaceBetweenTubes = 90;
+    
+                const tubeSkyX = pair.x;
+                const tubeSkyY = yRandom;
+                ctx.drawImage(
+                    sprites,
+                    tubes.sky.spriteX, tubes.sky.spriteY,
+                    tubes.width, tubes.height,
+                    tubeSkyX, tubeSkyY,
+                    tubes.width, tubes.height,
+                );
+    
+                const tubeFloorX = pair.x;
+                const tubeFloorY = tubes.height + spaceBetweenTubes + yRandom;
+                ctx.drawImage(
+                    sprites,
+                    tubes.floor.spriteX, tubes.floor.spriteY,
+                    tubes.width, tubes.height,
+                    tubeFloorX, tubeFloorY,
+                    tubes.width, tubes.height,
+                );
+            })
         },
+        pairs: [],
+        update() {
+            const pass100Frames = frames % 100 === 0;
+            if(pass100Frames) {
+                console.log("pass100Frames")
+                tubes.pairs.push({
+                    x: canvas.width,
+                    y: -150 * (Math.random() + 1),
+                });                
+            }
+
+            tubes.pairs.forEach(function(pair) {
+                pair.x = pair.x - 2;
+
+                if(pair.x + tubes.width <= 0) {
+                    tubes.pairs.shift();
+                }
+            });
+        }
     }
     return tubes;
 }
@@ -219,9 +240,9 @@ const Screens = {
         },
         draw() {
             background.draw();
+            global.tube.draw();
             global.floor.draw();
             global.flappyBird.draw();
-            global.tube.draw();
             messageGetReady.draw();
         },
         click() {
@@ -229,7 +250,7 @@ const Screens = {
         },
         update() {
             global.floor.update();
-
+            global.tube.update();
         }
     },
     GAME: {
