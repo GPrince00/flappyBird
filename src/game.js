@@ -206,7 +206,27 @@ function createTubes() {
                     tubeFloorX, tubeFloorY,
                     tubes.width, tubes.height,
                 );
+
+                pair.tubeSky = {
+                    x: tubeSkyX,
+                    y: tubes.height + tubeSkyY
+                }
+                pair.tubeFloor = {
+                    x: tubeFloorX,
+                    y: tubeFloorY
+                }
             })
+        },
+        hascollisionWithFlappyBird(pair) {
+            const headOfFlappy = global.flappyBird.y;
+            const footOfFlappy = global.flappyBird.y + global.flappyBird.height;
+
+            if(global.flappyBird.x >= pair.x) {
+                if(headOfFlappy <= pair.tubeSky.y) return true;
+
+                if(footOfFlappy >= pair.tubeFloor.y) return true;
+            }
+            return false
         },
         pairs: [],
         update() {
@@ -222,9 +242,10 @@ function createTubes() {
             tubes.pairs.forEach(function(pair) {
                 pair.x = pair.x - 2;
 
-                if(pair.x + tubes.width <= 0) {
-                    tubes.pairs.shift();
+                if (tubes.hascollisionWithFlappyBird(pair)){
+                    console.log("Game Over")
                 }
+                if(pair.x + tubes.width <= 0) tubes.pairs.shift();
             });
         }
     }
