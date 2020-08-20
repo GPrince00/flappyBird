@@ -169,16 +169,59 @@ function changeScreen(newScreen) {
     if (activeScreen.initializes) activeScreen.initializes();
 }
 
+function createTubes() {
+    const tubes = {
+        width: 52,
+        height: 400,
+        floor: {
+            spriteX: 0,
+            spriteY: 169,
+        },
+        sky: {
+            spriteX: 52,
+            spriteY: 169,
+        },
+        space: 80,
+        draw() {
+            const yRandom = -150;
+            const spaceBetweenTubes = 90;
+
+            const tubeSkyX = 220;
+            const tubeSkyY = yRandom;
+            ctx.drawImage(
+                sprites,
+                tubes.sky.spriteX, tubes.sky.spriteY,
+                tubes.width, tubes.height,
+                tubeSkyX, tubeSkyY,
+                tubes.width, tubes.height,
+            );
+
+            const tubeFloorX = 220;
+            const tubeFloorY = tubes.height + spaceBetweenTubes + yRandom;
+            ctx.drawImage(
+                sprites,
+                tubes.floor.spriteX, tubes.floor.spriteY,
+                tubes.width, tubes.height,
+                tubeFloorX, tubeFloorY,
+                tubes.width, tubes.height,
+            );
+        },
+    }
+    return tubes;
+}
+
 const Screens = {
     START: {
         initializes() {
             global.flappyBird = createFlappBird();
             global.floor = createFloor();
+            global.tube = createTubes();
         },
         draw() {
             background.draw();
             global.floor.draw();
             global.flappyBird.draw();
+            global.tube.draw();
             messageGetReady.draw();
         },
         click() {
