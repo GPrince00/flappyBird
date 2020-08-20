@@ -243,7 +243,8 @@ function createTubes() {
                 pair.x = pair.x - 2;
 
                 if (tubes.hascollisionWithFlappyBird(pair)){
-                    console.log("Game Over")
+                    hitSound.play();
+                    changeScreen(Screens.START)
                 }
                 if(pair.x + tubes.width <= 0) tubes.pairs.shift();
             });
@@ -271,12 +272,12 @@ const Screens = {
         },
         update() {
             global.floor.update();
-            global.tube.update();
         }
     },
     GAME: {
         draw() {
             background.draw();
+            global.tube.draw();
             global.floor.draw();
             global.flappyBird.draw();
         },
@@ -284,6 +285,8 @@ const Screens = {
             global.flappyBird.jump();
         },
         update() {
+            global.tube.update();
+            global.floor.update();
             global.flappyBird.update();
         }
     }
