@@ -253,6 +253,24 @@ function createTubes() {
     return tubes;
 }
 
+function createScoreboard() {
+    const scoreboard = {
+        score: 0,
+        draw() {
+            ctx.font = "35px VT323";
+            ctx.textAlign = "right" 
+            ctx.fillStyle = "white";
+            ctx.fillText(`${scoreboard.score}`, canvas.width - 10, 35);
+        },
+        update() {
+            const frameInterval = 20;
+            const passedInterval = frames % frameInterval === 0;
+            if (passedInterval) scoreboard.score = scoreboard.score + 1;
+        }
+    }
+    return scoreboard;
+}
+
 const Screens = {
     START: {
         initializes() {
@@ -274,12 +292,17 @@ const Screens = {
             global.floor.update();
         }
     },
+
     GAME: {
+        initializes() {
+            global.scoreboard = createScoreboard();
+        },
         draw() {
             background.draw();
             global.tube.draw();
             global.floor.draw();
             global.flappyBird.draw();
+            global.scoreboard.draw();
         },
         click(){
             global.flappyBird.jump();
@@ -288,6 +311,8 @@ const Screens = {
             global.tube.update();
             global.floor.update();
             global.flappyBird.update();
+            global.scoreboard.update();
+
         }
     }
 }
