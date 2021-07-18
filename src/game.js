@@ -238,7 +238,7 @@ function createTubes() {
             const headOfFlappy = global.flappyBird.y;
             const footOfFlappy = global.flappyBird.y + global.flappyBird.height;
 
-            if(global.flappyBird.x >= pair.x) {
+            if((global.flappyBird.x + global.flappyBird.width) >= pair.x) {
                 if(headOfFlappy <= pair.tubeSky.y) return true;
 
                 if(footOfFlappy >= pair.tubeFloor.y) return true;
@@ -261,7 +261,7 @@ function createTubes() {
 
                 if (tubes.hascollisionWithFlappyBird(pair)){
                     hitSound.play();
-                    changeScreen(Screens.START)
+                    changeScreen(Screens.GAME_OVER)
                 }
                 if(pair.x + tubes.width <= 0) tubes.pairs.shift();
             });
