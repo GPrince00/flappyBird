@@ -100,9 +100,7 @@ function createFlappBird() {
         update(){
             if(collision()) {
                 hitSound.play();
-                setTimeout(() => {
-                    changeScreen(Screens.START)
-                }, 500);
+                changeScreen(Screens.GAME_OVER)
                 return;
             }
     
@@ -160,6 +158,25 @@ const messageGetReady = {
         );
     }
 }
+
+const gameOverMessage = {
+    spriteX: 134,
+    spriteY: 153,
+    width: 226,
+    height: 200,
+    x: (canvas.width / 2) - 226 / 2,
+    y: 50,
+    draw() {
+        ctx.drawImage(
+            sprites,
+            gameOverMessage.spriteX, gameOverMessage.spriteY,
+            gameOverMessage.width, gameOverMessage.height,
+            gameOverMessage.x, gameOverMessage.y,
+            gameOverMessage.width, gameOverMessage.height,
+        );
+    }
+}
+
 const global = {};
 let activeScreen = {};
 
@@ -313,6 +330,17 @@ const Screens = {
             global.flappyBird.update();
             global.scoreboard.update();
 
+        }
+    },
+
+    GAME_OVER: {
+        draw() {
+            gameOverMessage.draw();
+        },
+        click(){
+            changeScreen(Screens.START);
+        },
+        update() {
         }
     }
 }
