@@ -368,7 +368,7 @@ function createGameOverScore() {
       ctx.fillText(localStorage.getItem("best") || global.scoreboard.score, canvas.width - a, 188);
     },
     updateBest() {
-      if (global.scoreboard.score > parseInt(localStorage.getItem("best"))) {
+      if (global.scoreboard.score > parseInt(localStorage.getItem("best")) || !parseInt(localStorage.getItem("best"))) {
         localStorage.setItem("best", global.scoreboard.score);
       }
     },
