@@ -282,7 +282,6 @@ function createTubes() {
     update() {
       const pass100Frames = frames % 100 === 0;
       if (pass100Frames) {
-        console.log("pass100Frames");
         tubes.pairs.push({
           x: canvas.width,
           y: -150 * (Math.random() + 1),
