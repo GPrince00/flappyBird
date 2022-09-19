@@ -365,7 +365,7 @@ function createGameOverScore() {
       ctx.font = "35px VT323";
       ctx.textAlign = "right";
       ctx.fillStyle = "white";
-      ctx.fillText(localStorage.getItem("best"), canvas.width - a, 188);
+      ctx.fillText(localStorage.getItem("best") || global.scoreboard.score, canvas.width - a, 188);
     },
     updateBest() {
       if (global.scoreboard.score > parseInt(localStorage.getItem("best"))) {
